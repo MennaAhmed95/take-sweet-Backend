@@ -1,8 +1,6 @@
 const mongoose = require("mongoose")
 const _ = require("lodash");
 const cafeSchema = new mongoose.Schema({
-    // orders: [],
-    
     description: {
         type: String,
     },
@@ -10,7 +8,12 @@ const cafeSchema = new mongoose.Schema({
         type: mongoose.ObjectId,
         ref: "User",
         required: true
-    }
+    },
+    orders: [{
+        type: mongoose.ObjectId,
+        ref: "Order",
+        required: true
+    }]
 }, {
     timestamps: true,
     toJSON: {
@@ -18,7 +21,8 @@ const cafeSchema = new mongoose.Schema({
             return _.pick(doc, [
                 "id",
                 "description",
-                "userId"
+                "userId",
+                "orders"
             ]);
         },
     },
