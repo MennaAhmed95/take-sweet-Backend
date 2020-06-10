@@ -1,10 +1,6 @@
 const mongoose = require("mongoose")
 const _ = require("lodash");
 const paymentTypesSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true
-    },
     name: {
         type: String,
         required: true
