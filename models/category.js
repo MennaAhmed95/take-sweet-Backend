@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const _ = require("lodash");
-const catSchema = new mongoose.Schema(
+const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -18,5 +18,5 @@ const catSchema = new mongoose.Schema(
   }
 );
 
-const Category = mongoose.model("Category", catSchema);
+const Category = mongoose.model("Category", categorySchema);
 module.exports = Category;
