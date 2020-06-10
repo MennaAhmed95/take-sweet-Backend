@@ -2,10 +2,6 @@ var mongoose = require("mongoose");
 const _ = require("lodash");
 
 const orderSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        required: true,
-    },
     // product: [], //of Ids
     date: {
         type: Date,
