@@ -4,7 +4,7 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const util = require('util');
-const CustomError = require('../helpers/cutomError');
+const CustomError = require('../helpers/customError');
 require('dotenv').config();
 
 const saltRounds = 10;
@@ -31,8 +31,14 @@ const userSchema = new mongoose.Schema({
     role: {
         type: mongoose.ObjectId,
         ref: "Role",
-        required: true
-    }
+        // required: true
+    },
+    branches: [{
+        type: mongoose.ObjectId,
+        ref: "Branch",
+        required: false
+    }],
+
 }, {
     collection: "users",
     toJSON: {
@@ -62,7 +68,7 @@ const verify = util.promisify(jwt.verify)
 
 // jwt.verify()
 
-userSchema.methods.generateToken = function (expiresIn = '30m') {
+userSchema.methods.generateToken = function (expiresIn = '60m') {
     const userInstance = this;
     return sign({
         userId: userInstance.id
