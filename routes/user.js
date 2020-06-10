@@ -29,7 +29,6 @@ router.post('/register', validationMiddleWare(
         .withMessage('must contain a number')),
         check('email')
         .isEmail(),
-
     async (req, res, next) => {
 
         const {
