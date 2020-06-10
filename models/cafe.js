@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 const _ = require("lodash");
-const roleSchema = new mongoose.Schema({
+const cafeSchema = new mongoose.Schema({
     // orders: [],
     description: {
         type: String,
@@ -23,6 +23,6 @@ const roleSchema = new mongoose.Schema({
     },
 });
 
-const Cafe = mongoose.model("Cafe", roleSchema);
+const Cafe = mongoose.model("Cafe", cafeSchema);
 
 module.exports = Cafe
