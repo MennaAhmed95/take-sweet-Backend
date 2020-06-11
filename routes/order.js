@@ -3,7 +3,7 @@ const router = express.Router();
 
 const Order = require("../models/order");
 
-const authorizationMiddleWare = require("../middleware/authorization");
+const {orderAuthorization} = require("../middleware/authorization");
 const authenticationmiddleWare = require("../middleware/authentecation");
 
 require("express-async-errors");
@@ -47,7 +47,7 @@ router.post("/addOrder", authenticationmiddleWare, async (req, res, next) => {
 router.patch(
     "/:id",
     authenticationmiddleWare,
-    authorizationMiddleWare,
+    orderAuthorization,
     async (req, res, next) => {
         const {
             id
@@ -87,7 +87,7 @@ router.patch(
 router.delete(
     "/:id",
     authenticationmiddleWare,
-    authorizationMiddleWare,
+    orderAuthorization,
     async (req, res, next) => {
         const {
             id
