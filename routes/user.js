@@ -19,7 +19,15 @@ router.get("/", async (req, res, next) => {
     res.status(200).json(usersList);
 });
 
-router.post('/register', signupValidator,
+router.post('/register', validationMiddleWare(
+        check('password')
+        .isLength({
+            min: 5
+        })
+        .withMessage('must be at least 5 chars long')
+        .matches(/\d/)
+        .withMessage('must contain a number')),
+
     async (req, res, next) => {
 
         const {
@@ -30,16 +38,20 @@ router.post('/register', signupValidator,
             role,
             branches,
         } = req.body;
-        const user = new User({
-            userName,
-            password,
-            email,
-            imagesrc,
-            role,
-            branches
-        });
-        await user.save();
-        res.json(user);
+        if (password) {
+            if (password == req.body.confirmPassword) {
+                const user = new User({
+                    userName,
+                    password,
+                    email,
+                    imagesrc,
+                    role,
+                    branches
+                });
+                await user.save();
+                res.json(user);
+            }
+        }
     })
 
 router.post('/login', async (req, res, next) => {

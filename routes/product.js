@@ -1,13 +1,12 @@
-const express = require("express");
+const express = require('express')
 const router = express.Router();
 const Product = require("../models/product");
-const authorizationMiddleWare = require("../middleware/authorization");
+const {productAuthorization} = require("../middleware/authorization");
 const authenticationmiddleWare = require("../middleware/authentecation");
 require("express-async-errors");
 const _ = require("lodash");
 
 router.get("/", async (req, res, next) => {
-  debugger;
   const products = await Product.find()
     .populate("categoryId")
     .populate("companyId");
@@ -40,7 +39,7 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
 router.patch(
   "/:id",
   authenticationmiddleWare,
-  authorizationMiddleWare,
+  productAuthorization,
   async (req, res, next) => {
     const { id } = req.params;
     const {
@@ -79,7 +78,7 @@ router.patch(
 router.delete(
   "/:id",
   authenticationmiddleWare,
-  authorizationMiddleWare,
+  productAuthorization,
   async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findByIdAndDelete(id);

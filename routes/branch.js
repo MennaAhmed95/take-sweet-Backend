@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Branch = require("../models/branch");
-const authorizationMiddleWare = require("../middleware/authorization");
+const {orderAuthorization} = require("../middleware/authorization");
 const authenticationmiddleWare = require("../middleware/authentecation");
 require("express-async-errors");
 const _ = require("lodash");
@@ -27,7 +27,7 @@ router.post("/addBranch", authenticationmiddleWare, async (req, res, next) => {
 router.patch(
   "/:id",
   authenticationmiddleWare,
-  authorizationMiddleWare,
+  orderAuthorization,
   async (req, res, next) => {
     const { id } = req.params;
     const { city, roleId, phoneNumper, address } = req.body;
@@ -55,7 +55,7 @@ router.patch(
 router.delete(
   "/:id",
   authenticationmiddleWare,
-  authorizationMiddleWare,
+  orderAuthorization,
   async (req, res, next) => {
     const { id } = req.params;
     const branch = await Branch.findByIdAndDelete(id);
