@@ -4,15 +4,16 @@ const _ = require("lodash");
 const productSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    imageUrl: { type: String, required: true },
+    imageSrc: { type: String, required: true },
     price: { type: Number, required: true, min: 10 },
     minPieces: { type: Number, required: true, min: 10 },
-    companyID: {
+    availableAmount: { type: Number, required: true, min: 10 },
+    companyId: {
       type: mongoose.ObjectId,
       ref: "Company",
       required: true,
     },
-    CategoryId: {
+    categoryId: {
       type: mongoose.ObjectId,
       ref: "Category",
       required: true,
@@ -21,7 +22,13 @@ const productSchema = new mongoose.Schema(
   {
     toJSON: {
       transform: (doc) => {
-        return _.pick(doc, ["name", "imageUrl", "price", "minPieces"]);
+        return _.pick(doc, [
+          "name",
+          "imageUrl",
+          "price",
+          "minPieces",
+          "availableAmount",
+        ]);
       },
     },
   }
