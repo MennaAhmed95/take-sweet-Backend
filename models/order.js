@@ -1,54 +1,59 @@
 var mongoose = require("mongoose");
 const _ = require("lodash");
 
-const orderSchema = new mongoose.Schema({
+const orderSchema = new mongoose.Schema(
+  {
     date: {
-        type: Date,
+      type: Date,
     },
     status: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
-    products: [{
+    products: [
+      {
         type: mongoose.ObjectId,
         ref: "Product",
         required: true,
-    }],
+      },
+    ],
     companyId: {
-        type: mongoose.ObjectId,
-        ref: "Company",
-        required: true,
+      type: mongoose.ObjectId,
+      ref: "Company",
+      required: true,
     },
-    cafeId: {
-        type: mongoose.ObjectId,
-        ref: "Cafe",
-        required: true,
+    userId: {
+      type: mongoose.ObjectId,
+      ref: "User",
+      required: true,
     },
     comments: {
-        type: String,
+      type: String,
     },
     paymentType: {
-        type: mongoose.ObjectId,
-        ref: "PaymentType",
-        required: true,
+      type: mongoose.ObjectId,
+      ref: "PaymentType",
+      required: true,
     },
-}, {
+  },
+  {
     timestamps: true,
     toJSON: {
-        virtuals: true,
-        transform: (doc) => {
-            return _.pick(doc, [
-                "id",
-                "date",
-                "products",
-                "companyId",
-                "cafeId",
-                "comments",
-                "paymentType"
-            ]);
-        },
+      virtuals: true,
+      transform: (doc) => {
+        return _.pick(doc, [
+          "id",
+          "date",
+          "products",
+          "companyId",
+          "cafeId",
+          "comments",
+          "paymentType",
+        ]);
+      },
     },
-});
+  }
+);
 
 const Order = mongoose.model("Order", orderSchema);
 

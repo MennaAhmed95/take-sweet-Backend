@@ -7,12 +7,12 @@ const branchSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    roleId: {
-      type: mongoose.ObjectId,
-      ref: "Role",
-      required: true,
-    },
-    phoneNumper: {
+    // userId: {
+    //   type: mongoose.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
+    phoneNumber: {
       type: String,
       required: true,
     },

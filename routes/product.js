@@ -1,7 +1,7 @@
-const express = require('express')
+const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
-const {productAuthorization} = require("../middleware/authorization");
+const { productAuthorization } = require("../middleware/authorization");
 const authenticationmiddleWare = require("../middleware/authentecation");
 require("express-async-errors");
 const _ = require("lodash");
@@ -9,7 +9,7 @@ const _ = require("lodash");
 router.get("/", async (req, res, next) => {
   const products = await Product.find()
     .populate("categoryId")
-    .populate("companyId");
+    .populate("userId");
   res.send(products);
 });
 
@@ -22,14 +22,14 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
     availableAmount,
     categoryId,
   } = req.body;
-  const companyId = req.user.id;
+  const userId = req.user.id;
   const product = new Product({
     name,
     imageSrc,
     price,
     minPieces,
     availableAmount,
-    companyId,
+    userId,
     categoryId,
   });
   await product.save();
@@ -48,7 +48,7 @@ router.patch(
       price,
       minPieces,
       availableAmount,
-      companyId,
+      userId,
       categoryId,
     } = req.body;
     const product = await Product.findByIdAndUpdate(
@@ -59,7 +59,7 @@ router.patch(
         price,
         minPieces,
         availableAmount,
-        companyId,
+        userId,
         categoryId,
       },
       {
