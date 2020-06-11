@@ -10,7 +10,6 @@ require('dotenv').config();
 const saltRounds = 10;
 const jwtSecret = process.env.JWT_SECRET
 
-// branches: [],
 
 const userSchema = new mongoose.Schema({
     userName: {
@@ -31,12 +30,12 @@ const userSchema = new mongoose.Schema({
     role: {
         type: mongoose.ObjectId,
         ref: "Role",
-        // required: true
+        required: true
     },
     branches: [{
         type: mongoose.ObjectId,
         ref: "Branch",
-        required: false
+        required: true
     }],
 
 }, {
@@ -44,11 +43,10 @@ const userSchema = new mongoose.Schema({
     toJSON: {
         virtuals: true,
         transform: doc => {
-            return _.pick(doc, ['id', 'userName', 'password', "email", "imagesrc","role"])
+            return _.pick(doc, ['id', 'userName', 'password', "email", "imagesrc", "role", "branches"])
         }
     }
 })
-
 userSchema.pre('save', async function () {
     const userInstance = this;
     if (this.isModified('password')) {

@@ -1,5 +1,9 @@
 const express = require("express");
 const userRoute = require("./routes/user");
+const roleRoute = require("./routes/role");
+const cafeRoute = require("./routes/cafe");
+const exampleRoute = require("./routes/example");
+
 const categoryRoute = require("./routes/category");
 const productRoute = require("./routes/product");
 const branchRoute = require("./routes/branch");
@@ -15,10 +19,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded());
 
-app.use("/user", userRoute);
+
+app.use("/user",userRoute);
+app.use("/role",roleRoute);
+app.use("/cafe",cafeRoute);
+app.use("/example",exampleRoute);
+
+
 app.use("/category", categoryRoute);
 app.use("/product", productRoute);
 app.use("/branch", branchRoute);
+
 
 app.use((req, res, next) => {
   res.json({
