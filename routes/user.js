@@ -5,6 +5,7 @@ const validationMiddleWare = require('../middleware/validation')
 const authenticationmiddleWare = require('../middleware/authentecation');
 require('express-async-errors');
 const CustomError = require('../helpers/customError');
+const signupValidator = require('../middleware/joiValidator')
 
 const {
     check,
@@ -14,21 +15,11 @@ const {
 module.exports = router;
 
 router.get("/", async (req, res, next) => {
-    const usersList = await User.find()
-    const firstNameList = usersList.map(user => user.firstName)
+    const usersList = await User.find().populate('role').populate('branches')
     res.status(200).json(usersList);
 });
 
-router.post('/register', validationMiddleWare(
-        check('password')
-        .isLength({
-            min: 5
-        })
-        .withMessage('must be at least 5 chars long')
-        .matches(/\d/)
-        .withMessage('must contain a number')),
-        check('email')
-        .isEmail(),
+router.post('/register', signupValidator,
     async (req, res, next) => {
 
         const {
@@ -36,22 +27,19 @@ router.post('/register', validationMiddleWare(
             password,
             email,
             imagesrc,
-            role
+            role,
+            branches,
         } = req.body;
-
-        if (password) {
-            if (password == req.body.confirmPassword) {
-                const user = new User({
-                    userName,
-                    password,
-                    email,
-                    imagesrc,
-                    role
-                });
-                await user.save();
-                res.json(user);
-            }
-        }
+        const user = new User({
+            userName,
+            password,
+            email,
+            imagesrc,
+            role,
+            branches
+        });
+        await user.save();
+        res.json(user);
     })
 
 router.post('/login', async (req, res, next) => {
@@ -83,18 +71,28 @@ router.patch('/', authenticationmiddleWare, validationMiddleWare(
         })
         .withMessage('must be at least 5 chars long')
         .matches(/\d/)
-        .withMessage('must contain a number')
+        .withMessage('must contain a number'),
+        check('email')
+        .isEmail(),
     ),
     async (req, res, next) => {
         id = req.user.id;
         const {
             userName,
-            password
+            password,
+            email,
+            imagesrc,
+            role,
+            branches,
         } = req.body;
         const user = await User.findByIdAndUpdate(id, {
             $set: {
                 userName,
-                password
+                password,
+                email,
+                imagesrc,
+                role,
+                branches,
             }
         }, {
             new: true,
@@ -106,7 +104,12 @@ router.patch('/', authenticationmiddleWare, validationMiddleWare(
 
 router.delete('/', authenticationmiddleWare, async (req, res, next) => {
     const id = req.user.id;
-    // const id= req.params.id;
     const user = await User.findByIdAndDelete(id);
     res.status(200).json(user)
 })
+
+router.get("/:id", async (req, res, next) => {
+    const id = req.params.id
+    const user = await User.findById(id).populate('role').populate('branches')
+    res.status(200).json(user);
+});

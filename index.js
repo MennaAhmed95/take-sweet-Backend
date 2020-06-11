@@ -1,5 +1,8 @@
 const express = require("express");
 const userRoute = require("./routes/user");
+const roleRoute = require("./routes/role");
+const cafeRoute = require("./routes/cafe");
+const exampleRoute = require("./routes/example");
 
 require('express-async-errors');
 require("dotenv").config();
@@ -13,6 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded());
 
 app.use("/user",userRoute);
+app.use("/role",roleRoute);
+app.use("/cafe",cafeRoute);
+app.use("/example",exampleRoute);
 
 app.use((req,res,next)=>{
   res.json({
