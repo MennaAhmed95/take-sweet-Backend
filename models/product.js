@@ -6,11 +6,11 @@ const productSchema = new mongoose.Schema(
     name: { type: String, required: true },
     imageSrc: { type: String, required: true },
     price: { type: Number, required: true, min: 10 },
-    minPieces: { type: Number, required: true, min: 10 },
-    availableAmount: { type: Number, required: true, min: 10 },
-    companyId: {
+    minPieces: { type: Number, required: true },
+    availableAmount: { type: Number, required: true },
+    userId: {
       type: mongoose.ObjectId,
-      ref: "Company",
+      ref: "User",
       required: true,
     },
     categoryId: {
@@ -28,6 +28,8 @@ const productSchema = new mongoose.Schema(
           "price",
           "minPieces",
           "availableAmount",
+          "categoryId",
+          "categoryId",
         ]);
       },
     },

@@ -26,19 +26,7 @@ const orderAuthorization = async (req, res, next) => {
   next();
 };
 
-const branchAuthorization = async (req, res, next) => {
-  const id = req.params.id;
-  const {
-    user: { id: userId },
-  } = req;
-  const branch = await Branch.findById(id);
-  if (!branch.userId.equals(userId))
-    throw CustomError("Not Authrized", 403, "you are not Authrized to do this");
-  next();
-};
-
 module.exports = {
   productAuthorization,
   orderAuthorization,
-  branchAuthorization
 };
