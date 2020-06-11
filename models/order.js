@@ -9,16 +9,19 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    productsIds: {
-        type: [mongoose.ObjectId],
+    products: [{
+        type: mongoose.ObjectId,
+        ref: "Product",
         required: true,
-    },
+    }],
     companyId: {
         type: mongoose.ObjectId,
+        ref: "Company",
         required: true,
     },
     cafeId: {
         type: mongoose.ObjectId,
+        ref: "Cafe",
         required: true,
     },
     comments: {
@@ -26,6 +29,7 @@ const orderSchema = new mongoose.Schema({
     },
     paymentType: {
         type: mongoose.ObjectId,
+        ref: "PaymentType",
         required: true,
     },
 }, {
@@ -36,6 +40,7 @@ const orderSchema = new mongoose.Schema({
             return _.pick(doc, [
                 "id",
                 "date",
+                "products",
                 "companyId",
                 "cafeId",
                 "comments",
