@@ -22,7 +22,13 @@ const productSchema = new mongoose.Schema(
   {
     toJSON: {
       transform: (doc) => {
-        return _.pick(doc, ["name", "imageUrl", "price", "minPieces"]);
+        return _.pick(doc, [
+          "name",
+          "imageUrl",
+          "price",
+          "minPieces",
+          "availableAmount",
+        ]);
       },
     },
   }
