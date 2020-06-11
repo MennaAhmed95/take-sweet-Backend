@@ -2,18 +2,24 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 
 const companySchema = new mongoose.Schema({
-    orders: {
-        type: [mongoose.ObjectId],
+    orders: [{
+        type: mongoose.ObjectId,
+        ref: "Order",
         required: true,
-    },
+    }],
     description: {
         type: String,
     },
-    paymentTypes: {
-        type: [mongoose.ObjectId],
+    paymentTypes: [{
+        type: mongoose.ObjectId,
+        ref: "PaymentType",
         required: true,
-    },
-    // products: [],
+    }],
+    productsIds: [{
+        type: mongoose.ObjectId,
+        ref: "Product",
+        required: true,
+    }],
     userId: {
         type: mongoose.ObjectId,
         ref: "User",
@@ -28,6 +34,7 @@ const companySchema = new mongoose.Schema({
                 "orders",
                 "description",
                 "paymentTypes",
+                "products",
                 "userId",
             ]);
         },
