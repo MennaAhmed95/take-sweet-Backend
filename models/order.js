@@ -44,9 +44,10 @@ const orderSchema = new mongoose.Schema(
         return _.pick(doc, [
           "id",
           "date",
+          "status",
           "products",
           "companyId",
-          "cafeId",
+          "userId",
           "comments",
           "paymentType",
         ]);

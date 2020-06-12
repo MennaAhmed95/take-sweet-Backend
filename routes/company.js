@@ -66,7 +66,6 @@ router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   const company = await Company.findById(id)
     .populate("userId")
-    // .populate("orders")
     .populate("paymentTypes");
   res.status(200).json(company);
 });

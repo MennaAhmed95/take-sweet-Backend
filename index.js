@@ -5,10 +5,9 @@ const cafeRoute = require("./routes/cafe");
 const categoryRoute =require('./routes/category');
 const paymentType = require('./routes/paymentType');
 const companyRoute = require('./routes/company');
-
 const orderRoute = require ('./routes/order')
 const productRoute = require('./routes/product')
-// const branchRoute = require("./routes/branch");
+const branchRoute = require("./routes/branch");
 
 require("express-async-errors");
 require("dotenv").config();
@@ -28,13 +27,10 @@ app.use("/cafe",cafeRoute);
 app.use("/category",categoryRoute)
 app.use("/payment",paymentType);
 app.use("/company",companyRoute)
+app.use("/product", productRoute);
+app.use("/branch", branchRoute);
 
-// app.use("/category", categoryRoute);
-// app.use("/product", productRoute);
-// app.use("/branch", branchRoute);
-// app.use("/paymentType", paymentTypeRoute);
-// app.use("/company", companyRoute);
-// app.use("/order", orderRoute);
+app.use("/order", orderRoute);
 
 
 app.use((req, res, next) => {

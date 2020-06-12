@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
     imageSrc: {
       type: String,
     },
-    role: {
+    roleId: {
       type: mongoose.ObjectId,
       ref: "Role",
       required: true,
@@ -51,8 +51,9 @@ const userSchema = new mongoose.Schema(
           "password",
           "email",
           "imagesrc",
-          "role",
+          "roleId",
           "branches",
+          "imageSrc"
         ]);
       },
     },

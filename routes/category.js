@@ -8,13 +8,13 @@ require("express-async-errors");
 module.exports = router;
 
 router.get("/", async (req, res, next) => {
-  debugger;
+
   const categories = await Category.find();
   res.status(200).json(categories);
 });
 
 router.post("/addCategory", async (req, res, next) => {
-  debugger;
+  
   const { name } = req.body;
   const category = new Category({
     name,
