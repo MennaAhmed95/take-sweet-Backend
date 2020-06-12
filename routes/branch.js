@@ -11,10 +11,10 @@ router.get("/", async (req, res, next) => {
 });
 
 router.post("/addBranch", async (req, res, next) => {
-  const { city, phoneNumper, address } = req.body;
+  const { city, phoneNumber, address } = req.body;
   const branch = new Branch({
     city,
-    phoneNumper,
+    phoneNumber,
     address,
   });
   await branch.save();
@@ -23,12 +23,12 @@ router.post("/addBranch", async (req, res, next) => {
 
 router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const { city, phoneNumper, address } = req.body;
+  const { city, phoneNumber, address } = req.body;
   const branch = await Branch.findByIdAndUpdate(
     id,
     {
       city,
-      phoneNumper,
+      phoneNumber,
       address,
     },
     {

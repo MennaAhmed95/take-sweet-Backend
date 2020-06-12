@@ -15,7 +15,7 @@ const {
 module.exports = router;
 
 router.get("/", async (req, res, next) => {
-    const usersList = await User.find().populate('role').populate('branches')
+    const usersList = await User.find().populate('roleId').populate('branches')
     res.status(200).json(usersList);
 });
 
@@ -26,7 +26,10 @@ router.post('/register', validationMiddleWare(
         })
         .withMessage('must be at least 5 chars long')
         .matches(/\d/)
-        .withMessage('must contain a number')),
+        .withMessage('must contain a number'),
+        check('email')
+        .isEmail()
+        ),
 
     async (req, res, next) => {
 
@@ -35,7 +38,7 @@ router.post('/register', validationMiddleWare(
             password,
             email,
             imagesrc,
-            role,
+            roleId,
             branches,
         } = req.body;
         if (password) {
@@ -45,7 +48,7 @@ router.post('/register', validationMiddleWare(
                     password,
                     email,
                     imagesrc,
-                    role,
+                    roleId,
                     branches
                 });
                 await user.save();
@@ -56,11 +59,11 @@ router.post('/register', validationMiddleWare(
 
 router.post('/login', async (req, res, next) => {
     const {
-        userName,
+        email,
         password
     } = req.body;
     const user = await User.findOne({
-        userName
+        email
     })
     if (!user) throw new Error('wrong data');
     const isMatch = await user.comparePassword(password);
@@ -89,22 +92,29 @@ router.patch('/', authenticationmiddleWare, validationMiddleWare(
     ),
     async (req, res, next) => {
         id = req.user.id;
+        const userById= await User.findById(id)
+        // const { userName,
+        //     password,
+        //     email,
+        //     imagesrc,
+        //     roleId,
+        //     branches,} = userById;
         const {
             userName,
             password,
             email,
             imagesrc,
-            role,
+            roleId,
             branches,
         } = req.body;
         const user = await User.findByIdAndUpdate(id, {
             $set: {
-                userName,
-                password,
-                email,
-                imagesrc,
-                role,
-                branches,
+                userName:userName||userById.userName,
+                password:password||userById.password,
+                email:email||userById.email,
+                imagesrc:imagesrc||userById.imagesrc,
+                roleId:roleId||userById.roleId,
+                branches:branches||userById.branches,
             }
         }, {
             new: true,
@@ -122,6 +132,6 @@ router.delete('/', authenticationmiddleWare, async (req, res, next) => {
 
 router.get("/:id", async (req, res, next) => {
     const id = req.params.id
-    const user = await User.findById(id).populate('role').populate('branches')
+    const user = await User.findById(id).populate('roleId').populate('branches')
     res.status(200).json(user);
 });
