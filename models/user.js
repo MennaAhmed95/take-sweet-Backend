@@ -39,6 +39,9 @@ const userSchema = new mongoose.Schema(
         required: true,
       },
     ],
+    description: {
+      type: String,
+    },
   },
   {
     collection: "users",
@@ -50,10 +53,10 @@ const userSchema = new mongoose.Schema(
           "userName",
           "password",
           "email",
-          "imagesrc",
+          "imageSrc",
           "roleId",
           "branches",
-          "imageSrc"
+          "description"
         ]);
       },
     },

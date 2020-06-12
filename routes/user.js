@@ -29,7 +29,7 @@ router.post('/register', validationMiddleWare(
         .withMessage('must contain a number'),
         check('email')
         .isEmail()
-        ),
+    ),
 
     async (req, res, next) => {
 
@@ -37,19 +37,21 @@ router.post('/register', validationMiddleWare(
             userName,
             password,
             email,
-            imagesrc,
+            imageSrc,
             roleId,
             branches,
         } = req.body;
+        const description = "this is your description"
         if (password) {
             if (password == req.body.confirmPassword) {
                 const user = new User({
                     userName,
                     password,
                     email,
-                    imagesrc,
+                    imageSrc,
                     roleId,
-                    branches
+                    branches,
+                    description
                 });
                 await user.save();
                 res.json(user);
@@ -92,7 +94,7 @@ router.patch('/', authenticationmiddleWare, validationMiddleWare(
     ),
     async (req, res, next) => {
         id = req.user.id;
-        const userById= await User.findById(id)
+        const userById = await User.findById(id)
         // const { userName,
         //     password,
         //     email,
@@ -109,12 +111,12 @@ router.patch('/', authenticationmiddleWare, validationMiddleWare(
         } = req.body;
         const user = await User.findByIdAndUpdate(id, {
             $set: {
-                userName:userName||userById.userName,
-                password:password||userById.password,
-                email:email||userById.email,
-                imagesrc:imagesrc||userById.imagesrc,
-                roleId:roleId||userById.roleId,
-                branches:branches||userById.branches,
+                userName: userName || userById.userName,
+                password: password || userById.password,
+                email: email || userById.email,
+                imagesrc: imagesrc || userById.imagesrc,
+                roleId: roleId || userById.roleId,
+                branches: branches || userById.branches,
             }
         }, {
             new: true,
@@ -124,8 +126,8 @@ router.patch('/', authenticationmiddleWare, validationMiddleWare(
         res.status(200).json(user)
     })
 
-router.delete('/', authenticationmiddleWare, async (req, res, next) => {
-    const id = req.user.id;
+router.delete('/:id', async (req, res, next) => {
+    const id = req.params.id;
     const user = await User.findByIdAndDelete(id);
     res.status(200).json(user)
 })

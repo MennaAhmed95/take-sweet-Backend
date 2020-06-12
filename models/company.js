@@ -3,16 +3,7 @@ const _ = require("lodash");
 
 const companySchema = new mongoose.Schema(
   {
-    // orders: [
-    //   {
-    //     type: mongoose.ObjectId,
-    //     ref: "Order",
-    //     required: true,
-    //   },
-    // ],
-    description: {
-      type: String,
-    },
+    
     paymentTypes: [
       {
         type: mongoose.ObjectId,
@@ -35,7 +26,6 @@ const companySchema = new mongoose.Schema(
           "orders",
           "description",
           "paymentTypes",
-          // "products",
           "userId",
         ]);
       },
