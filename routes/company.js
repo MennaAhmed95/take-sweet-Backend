@@ -32,8 +32,9 @@ router.post("/addCompany", authenticationmiddleWare, async (req, res, next) => {
 });
 
 //edit company
-router.patch("/", async (req, res, next) => {
-  const id = req.user.id;
+router.patch("/:id", async (req, res, next) => {
+  // const id = req.user.id;
+  const id = req.params.id;
   const { description, paymentTypes, userId } = req.body;
   const company = await Company.findByIdAndUpdate(
     id,
