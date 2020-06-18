@@ -22,6 +22,7 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
     availableAmount,
     categoryId,
   } = req.body;
+  const amount = minPieces;
   const userId = req.user.id;
   const product = new Product({
     name,
@@ -31,6 +32,7 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
     availableAmount,
     userId,
     categoryId,
+    amount
   });
   await product.save();
   res.json(product);
@@ -50,6 +52,7 @@ router.patch(
       availableAmount,
       userId,
       categoryId,
+      amount
     } = req.body;
     const product = await Product.findByIdAndUpdate(
       id,
@@ -61,6 +64,7 @@ router.patch(
         availableAmount,
         userId,
         categoryId,
+        amount
       },
       {
         new: true,
@@ -68,9 +72,14 @@ router.patch(
         omitUndefined: true,
       }
     );
+    const newproducts = await Product.find()
+    .populate("categoryId")
+    .populate("userId");
+
     res.status(200).json({
       message: "product Edit Succssfully",
       product,
+      newproducts
     });
   }
 );
