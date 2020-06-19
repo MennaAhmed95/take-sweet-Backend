@@ -2,9 +2,6 @@ const mongoose = require("mongoose");
 const _ = require("lodash");
 const cafeSchema = new mongoose.Schema(
   {
-    description: {
-      type: String,
-    },
     userId: {
       type: mongoose.ObjectId,
       ref: "User",
