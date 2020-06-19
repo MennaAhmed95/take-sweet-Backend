@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
-const { productAuthorization } = require("../middleware/authorization");
+const {
+  productAuthorization
+} = require("../middleware/authorization");
 const authenticationmiddleWare = require("../middleware/authentecation");
 require("express-async-errors");
 const _ = require("lodash");
@@ -23,14 +25,17 @@ router.post("/imageUpload", (req, res, next) => {
   res.json({
     imageUrl,
   });
-//get All Products By userId
-router.get("/products/:id", async (req, res, next) => {
-  const id = req.params.id
-  const products = await Product.find({userId:id})
-    .populate("categoryId")
-    .populate("userId");
-  res.send(products);
+  //get All Products By userId
+  router.get("/products/:id", async (req, res, next) => {
+    const id = req.params.id
+    const products = await Product.find({
+        userId: id
+      })
+      .populate("categoryId")
+      .populate("userId");
+    res.send(products);
 
+  });
 });
 
 router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
@@ -63,7 +68,9 @@ router.patch(
   authenticationmiddleWare,
   productAuthorization,
   async (req, res, next) => {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const {
       name,
       imageSrc,
@@ -75,8 +82,7 @@ router.patch(
       amount
     } = req.body;
     const product = await Product.findByIdAndUpdate(
-      id,
-      {
+      id, {
         name,
         imageSrc,
         price,
@@ -85,16 +91,15 @@ router.patch(
         userId,
         categoryId,
         amount
-      },
-      {
+      }, {
         new: true,
         runValidators: true,
         omitUndefined: true,
       }
     );
     const newproducts = await Product.find()
-    .populate("categoryId")
-    .populate("userId");
+      .populate("categoryId")
+      .populate("userId");
 
     res.status(200).json({
       message: "product Edit Succssfully",
@@ -109,14 +114,18 @@ router.delete(
   authenticationmiddleWare,
   productAuthorization,
   async (req, res, next) => {
-    const { id } = req.params;
+    const {
+      id
+    } = req.params;
     const product = await Product.findByIdAndDelete(id);
     res.status(200).json(product);
   }
 );
 
 router.get("/:id", async (req, res, next) => {
-  const { id } = req.params;
+  const {
+    id
+  } = req.params;
   const product = await Product.findById(id)
     .populate("categoryId")
     .populate("userId");
