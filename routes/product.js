@@ -6,8 +6,18 @@ const authenticationmiddleWare = require("../middleware/authentecation");
 require("express-async-errors");
 const _ = require("lodash");
 
+//get All Products
 router.get("/", async (req, res, next) => {
   const products = await Product.find()
+    .populate("categoryId")
+    .populate("userId");
+  res.send(products);
+});
+
+//get All Products By userId
+router.get("/products/:id", async (req, res, next) => {
+  const id = req.params.id
+  const products = await Product.find({userId:id})
     .populate("categoryId")
     .populate("userId");
   res.send(products);
