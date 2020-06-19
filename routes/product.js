@@ -9,7 +9,7 @@ require("express-async-errors");
 const _ = require("lodash");
 const multer = require("multer");
 
-//get All Products
+// get All Products
 router.get("/", async (req, res, next) => {
   const products = await Product.find()
     .populate("categoryId")
@@ -25,18 +25,34 @@ router.post("/imageUpload", (req, res, next) => {
   res.json({
     imageUrl,
   });
-  //get All Products By userId
-  router.get("/products/:id", async (req, res, next) => {
-    const id = req.params.id
-    const products = await Product.find({
-        userId: id
-      })
-      .populate("categoryId")
-      .populate("userId");
-    res.send(products);
+  // router.get("/products/:id", async (req, res, next) => {
+  //   const id = req.params.id
+  //   const products = await Product.find({
+  //       userId: id
+  //     })
+  //     .populate("categoryId")
+  //     .populate("userId");
+  // res.json(products);
 
-  });
 });
+
+
+
+//get All Products By userId
+router.get("/products/:id", async (req, res, next) => {
+  const id = req.params.id
+  const products = await Product.find({
+      userId: id
+    })
+    .populate("categoryId")
+    .populate("userId");
+res.json(products);
+// res.send(products);
+
+});
+
+
+
 
 router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
   const {

@@ -13,42 +13,32 @@ router.get("/", async (req, res, next) => {
 
 router.post("/addCafe", authenticationmiddleWare, async (req, res, next) => {
   const userId = req.user.id;
-  const {
-    description,
-    // orders
-  } = req.body;
   const cafe = new Cafe({
-    description,
-    userId,
-    // orders
+    userId
   });
   await cafe.save();
   res.json(cafe);
 });
 
-router.patch("/", async (req, res, next) => {
-  const id = req.user.id;
-  const { description, userId } = req.body;
+router.patch("/:id", authenticationmiddleWare, async (req, res, next) => {
+  const id = req.params.id;
+  const userId = req.user.id
   const cafe = await Cafe.findByIdAndUpdate(
-    id,
-    {
+    id, {
       $set: {
-        description,
-        userId,
-        // orders,
+        userId
       },
-    },
-    {
+    }, {
       new: true,
       runValidators: true,
       omitUndefined: true,
     }
-  );
+  ).populate("userId");
   res.status(200).json(cafe);
 });
 
-router.delete("/", authenticationmiddleWare, async (req, res, next) => {
-  const id = req.user.id;
+router.delete("/:id", authenticationmiddleWare, async (req, res, next) => {
+  const id = req.params.id;
   const cafe = await Cafe.findByIdAndDelete(id);
   res.status(200).json(cafe);
 });
@@ -56,5 +46,15 @@ router.delete("/", authenticationmiddleWare, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   const cafe = await Cafe.findById(id).populate("userId");
+  res.status(200).json(cafe);
+});
+
+router.get("/getByUserId", authenticationmiddleWare, async (req, res, next) => {
+  const userId = req.user.id
+  const cafe = await Cafe.find({
+      userId
+    })
+    .populate("userId");
+
   res.status(200).json(cafe);
 });

@@ -32,7 +32,6 @@ app.use("/payment", paymentType);
 app.use("/company", companyRoute);
 app.use("/product", productRoute);
 app.use("/branch", branchRoute);
-
 app.use("/order", orderRoute);
 
 app.use((req, res, next) => {
