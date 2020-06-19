@@ -20,7 +20,10 @@ router.get("/", async (req, res, next) => {
 // add new company
 router.post("/addCompany", authenticationmiddleWare, async (req, res, next) => {
   const userId = req.user.id;
-  const { description, paymentTypes } = req.body;
+  const {
+    description,
+    paymentTypes
+  } = req.body;
   const company = new Company({
     // orders,
     description,
@@ -35,18 +38,20 @@ router.post("/addCompany", authenticationmiddleWare, async (req, res, next) => {
 router.patch("/:id", async (req, res, next) => {
   // const id = req.user.id;
   const id = req.params.id;
-  const { description, paymentTypes, userId } = req.body;
+  const {
+    description,
+    paymentTypes,
+    userId
+  } = req.body;
   const company = await Company.findByIdAndUpdate(
-    id,
-    {
+    id, {
       $set: {
         // orders,
         description,
         paymentTypes,
         userId,
       },
-    },
-    {
+    }, {
       new: true,
       runValidators: true,
       omitUndefined: true,
@@ -62,11 +67,13 @@ router.delete("/:id", authenticationmiddleWare, async (req, res, next) => {
   res.status(200).json(company);
 });
 
-//get companies by id
-router.get("/:id", async (req, res, next) => {
-  const id = req.params.id;
-  const company = await Company.findById(id)
-    .populate("userId")
-    .populate("paymentTypes");
+//get companies by userid
+router.get("/getByUserId", authenticationmiddleWare, async (req, res, next) => {
+  const userId = req.user.id
+  const company = await Company.find({
+      userId
+    })
+    .populate("paymentTypes").populate("userId");
+
   res.status(200).json(company);
 });
