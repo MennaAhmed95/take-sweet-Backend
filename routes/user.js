@@ -66,7 +66,7 @@ router.post('/login', async (req, res, next) => {
     } = req.body;
     const user = await User.findOne({
         email
-    })
+    }).populate("roleId")
     if (!user) throw new Error('wrong data');
     const isMatch = await user.comparePassword(password);
     if (!isMatch) throw new Error('Wrong password');

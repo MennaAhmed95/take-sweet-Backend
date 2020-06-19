@@ -7,12 +7,14 @@ require("express-async-errors");
 const _ = require("lodash");
 const multer = require("multer");
 
+//get All Products
 router.get("/", async (req, res, next) => {
   const products = await Product.find()
     .populate("categoryId")
     .populate("userId");
   res.send(products);
 });
+
 
 router.post("/imageUpload", (req, res, next) => {
   const image = req.file;
@@ -21,6 +23,14 @@ router.post("/imageUpload", (req, res, next) => {
   res.json({
     imageUrl,
   });
+//get All Products By userId
+router.get("/products/:id", async (req, res, next) => {
+  const id = req.params.id
+  const products = await Product.find({userId:id})
+    .populate("categoryId")
+    .populate("userId");
+  res.send(products);
+
 });
 
 router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
@@ -32,6 +42,7 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
     availableAmount,
     categoryId,
   } = req.body;
+  const amount = minPieces;
   const userId = req.user.id;
   const product = new Product({
     name,
@@ -41,6 +52,7 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
     availableAmount,
     userId,
     categoryId,
+    amount
   });
   await product.save();
   res.json(product);
@@ -60,6 +72,7 @@ router.patch(
       availableAmount,
       userId,
       categoryId,
+      amount
     } = req.body;
     const product = await Product.findByIdAndUpdate(
       id,
@@ -71,6 +84,7 @@ router.patch(
         availableAmount,
         userId,
         categoryId,
+        amount
       },
       {
         new: true,
@@ -78,9 +92,14 @@ router.patch(
         omitUndefined: true,
       }
     );
+    const newproducts = await Product.find()
+    .populate("categoryId")
+    .populate("userId");
+
     res.status(200).json({
       message: "product Edit Succssfully",
       product,
+      newproducts
     });
   }
 );
