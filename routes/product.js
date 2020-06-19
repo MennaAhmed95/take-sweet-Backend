@@ -5,12 +5,22 @@ const { productAuthorization } = require("../middleware/authorization");
 const authenticationmiddleWare = require("../middleware/authentecation");
 require("express-async-errors");
 const _ = require("lodash");
+const multer = require("multer");
 
 router.get("/", async (req, res, next) => {
   const products = await Product.find()
     .populate("categoryId")
     .populate("userId");
   res.send(products);
+});
+
+router.post("/imageUpload", (req, res, next) => {
+  const image = req.file;
+  const imagePath = image.path;
+  const imageUrl = imagePath.replace("\\", "/");
+  res.json({
+    imageUrl,
+  });
 });
 
 router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
@@ -88,7 +98,9 @@ router.delete(
 
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const product = await Product.findById(id).populate("categoryId").populate("userId");
+  const product = await Product.findById(id)
+    .populate("categoryId")
+    .populate("userId");
   res.status(200).json(product);
 });
 
