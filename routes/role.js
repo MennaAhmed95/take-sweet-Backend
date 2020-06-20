@@ -10,6 +10,12 @@ router.get("/", async (req, res, next) => {
     res.status(200).json(roles);
 })
 
+router.get("/:id", async (req, res, next) => {
+    const id = req.params.id;
+    const role = await Role.findById(id)
+    res.status(200).json(role);
+})
+
 router.post('/addRole', async (req, res, next) => {
     const {
         name
