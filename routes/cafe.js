@@ -43,11 +43,6 @@ router.delete("/:id", authenticationmiddleWare, async (req, res, next) => {
   res.status(200).json(cafe);
 });
 
-router.get("/:id", async (req, res, next) => {
-  const id = req.params.id;
-  const cafe = await Cafe.findById(id).populate("userId");
-  res.status(200).json(cafe);
-});
 
 router.get("/getByUserId", authenticationmiddleWare, async (req, res, next) => {
   const userId = req.user.id
@@ -56,5 +51,13 @@ router.get("/getByUserId", authenticationmiddleWare, async (req, res, next) => {
     })
     .populate("userId");
 
-  res.status(200).json(cafe);
+  res.status(200).json(cafe[0]);
 });
+
+router.get("/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const cafe = await Cafe.findById(id).populate("userId");
+  res.status(200).json(cafe);
+}); 
+
+
