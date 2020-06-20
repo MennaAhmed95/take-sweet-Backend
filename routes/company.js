@@ -75,5 +75,5 @@ router.get("/getByUserId", authenticationmiddleWare, async (req, res, next) => {
     })
     .populate("paymentTypes").populate("userId");
 
-  res.status(200).json(company);
+  res.status(200).json(company[0]);
 });

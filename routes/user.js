@@ -78,29 +78,12 @@ router.post('/login', async (req, res, next) => {
     })
 })
 
-
-
-
 router.patch('/', authenticationmiddleWare, validationMiddleWare(
-        check('password')
-        .isLength({
-            min: 5
-        })
-        .withMessage('must be at least 5 chars long')
-        .matches(/\d/)
-        .withMessage('must contain a number'),
         check('email')
         .isEmail(),
     ),
     async (req, res, next) => {
-        id = req.user.id;
-        const userById = await User.findById(id)
-        // const { userName,
-        //     password,
-        //     email,
-        //     imagesrc,
-        //     roleId,
-        //     branches,} = userById;
+        const id = req.user.id
         const {
             userName,
             password,
@@ -108,15 +91,18 @@ router.patch('/', authenticationmiddleWare, validationMiddleWare(
             imagesrc,
             roleId,
             branches,
+            description
         } = req.body;
         const user = await User.findByIdAndUpdate(id, {
             $set: {
-                userName: userName || userById.userName,
-                password: password || userById.password,
-                email: email || userById.email,
-                imagesrc: imagesrc || userById.imagesrc,
-                roleId: roleId || userById.roleId,
-                branches: branches || userById.branches,
+                userName,
+                password,
+                email,
+                roleId,
+                branches,
+                description,
+                imagesrc
+
             }
         }, {
             new: true,
