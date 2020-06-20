@@ -58,6 +58,4 @@ router.get("/:id", async (req, res, next) => {
   const id = req.params.id;
   const cafe = await Cafe.findById(id).populate("userId");
   res.status(200).json(cafe);
-}); 
-
-
+});

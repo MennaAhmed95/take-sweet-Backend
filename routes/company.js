@@ -21,12 +21,10 @@ router.get("/", async (req, res, next) => {
 router.post("/addCompany", authenticationmiddleWare, async (req, res, next) => {
   const userId = req.user.id;
   const {
-    description,
     paymentTypes
   } = req.body;
   const company = new Company({
     // orders,
-    description,
     paymentTypes,
     userId,
   });
@@ -39,7 +37,6 @@ router.patch("/:id", async (req, res, next) => {
   // const id = req.user.id;
   const id = req.params.id;
   const {
-    description,
     paymentTypes,
     userId
   } = req.body;
@@ -47,7 +44,7 @@ router.patch("/:id", async (req, res, next) => {
     id, {
       $set: {
         // orders,
-        description,
+
         paymentTypes,
         userId,
       },
