@@ -26,7 +26,7 @@ const branchSchema = new mongoose.Schema(
     toJSON: {
       virtuals: true,
       transform: (doc) => {
-        return _.pick(doc, ["id","city", "phoneNumber", "address"]);
+        return _.pick(doc, ["id", "city", "phoneNumber", "address"]);
       },
     },
   }

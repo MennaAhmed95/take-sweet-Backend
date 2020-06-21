@@ -8,6 +8,7 @@ const companyRoute = require("./routes/company");
 const orderRoute = require("./routes/order");
 const productRoute = require("./routes/product");
 const branchRoute = require("./routes/branch");
+const orderProductRoute = require("./routes/orderProduct");
 const multer = require("multer");
 const filestorage = require("./helpers/storage");
 const path = require("path");
@@ -32,6 +33,7 @@ app.use("/payment", paymentType);
 app.use("/company", companyRoute);
 app.use("/product", productRoute);
 app.use("/branch", branchRoute);
+app.use("/orderProduct", orderProductRoute);
 app.use("/order", orderRoute);
 
 app.use((req, res, next) => {

@@ -10,10 +10,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    products: [
+    orderProducts: [
       {
         type: mongoose.ObjectId,
-        ref: "Product",
+        ref: "OrderProduct",
         required: true,
       },
     ],
@@ -35,6 +35,10 @@ const orderSchema = new mongoose.Schema(
       ref: "PaymentType",
       required: true,
     },
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -45,7 +49,7 @@ const orderSchema = new mongoose.Schema(
           "id",
           "date",
           "status",
-          "products",
+          "orderProducts",
           "companyId",
           "userId",
           "comments",
