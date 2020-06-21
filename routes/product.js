@@ -26,14 +26,39 @@ router.post("/imageUpload", (req, res, next) => {
 
 //get All Products By userId
 router.get("/products/:id", async (req, res, next) => {
-  const id = req.params.id;
-  const products = await Product.find({
-    userId: id,
-  })
-    .populate("categoryId")
+  let {search,categoryId,sortBy}=req.query
+    let products;
+    let category = categoryId ? {categoryId}:{}
+    let searchValue = search ? { name: {$regex: new RegExp(".*"+ search.toLowerCase() +".*")}}:{}
+
+    const id = req.params.id
+    products = await Product.find({...searchValue,...category,userId: id}).populate("categoryId")
     .populate("userId");
-  res.json(products);
-  // res.send(products);
+    
+    //////////sorting//////
+
+    switch (sortBy) {
+      case '0':
+        products = _.orderBy(products,'name','asc')
+        break;
+      case '1':
+          products = _.orderBy(products,`price`,`desc`)
+        break;
+      case '2':
+          products = _.orderBy(products,`price`,`asc`)
+        break;  
+      default:
+        break;
+    }
+
+    // const strSort = sortBy? sortBy.split(":") : "";
+    // if(sortBy){
+    //     if(strSort[0]==='name') products= _.orderBy(products,`${strSort[0]}`,'asc')
+    //     else products = _.orderBy(products,`${strSort[0]}`,`${strSort[1]}`)
+    // }
+    res.json(products);
+
+
 });
 
 router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
