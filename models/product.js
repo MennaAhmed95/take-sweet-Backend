@@ -39,6 +39,10 @@ const productSchema = new mongoose.Schema({
   amount: {
     type: Number,
     required: true
+  },
+  onSale: {
+    type: Boolean,
+    required: true
   }
 }, {
   toJSON: {
@@ -52,7 +56,8 @@ const productSchema = new mongoose.Schema({
         "availableAmount",
         "userId",
         "categoryId",
-        "amount"
+        "amount",
+        "onSale"
       ]);
     },
   },
