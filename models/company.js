@@ -8,7 +8,7 @@ const companySchema = new mongoose.Schema(
       {
         type: mongoose.ObjectId,
         ref: "PaymentType",
-        required: true,
+        required: false,
       },
     ],
     userId: {
