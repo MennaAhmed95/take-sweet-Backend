@@ -20,9 +20,10 @@ router.get("/", async (req, res, next) => {
 // add new company
 router.post("/addCompany", authenticationmiddleWare, async (req, res, next) => {
   const userId = req.user.id;
-  const {
-    paymentTypes
-  } = req.body;
+  // const {
+  //   paymentTypes
+  // } = req.body;
+  const paymentTypes = ["5ee23154d18342255093a2bb", "5ee231bfd18342255093a2bc", "5ee231d3d18342255093a2bd", "5ee2320ad18342255093a2be", "5ee23223d18342255093a2bf", "5ee2326dd18342255093a2c0"]
   const company = new Company({
     // orders,
     paymentTypes,
