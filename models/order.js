@@ -19,7 +19,7 @@ const orderSchema = new mongoose.Schema(
     ],
     companyId: {
       type: mongoose.ObjectId,
-      ref: "Company",
+      ref: "User",
       required: true,
     },
     userId: {

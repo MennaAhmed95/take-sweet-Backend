@@ -97,13 +97,13 @@ router.delete(
   }
 );
 
-// get orders by id
+// get orders by user id
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
-  const order = await Order.findById(id)
+  const order = await Order.find({ userId: id })
     .populate("userId")
     .populate("companyId")
-    .populate("products");
+    .populate("orderProducts");
   res.status(200).json(order);
 });
 
