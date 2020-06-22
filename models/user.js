@@ -82,7 +82,7 @@ const verify = util.promisify(jwt.verify);
 
 // jwt.verify()
 
-userSchema.methods.generateToken = function (expiresIn = "800m") {
+userSchema.methods.generateToken = function (expiresIn = "8000m") {
   const userInstance = this;
   return sign(
     {
