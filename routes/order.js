@@ -49,7 +49,6 @@ router.post("/addOrder", authenticationmiddleWare, async (req, res, next) => {
 router.patch(
   "/:id",
   authenticationmiddleWare,
-  orderAuthorization,
   async (req, res, next) => {
     const { id } = req.params;
     const {
