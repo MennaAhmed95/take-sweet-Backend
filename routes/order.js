@@ -97,6 +97,16 @@ router.delete(
   }
 );
 
+// get orders by company id
+router.get("/orders/:id", async (req, res, next) => {
+  const { id } = req.params;
+  const order = await Order.find({ companyId: id })
+    .populate("userId")
+    .populate("companyId")
+    .populate("orderProducts");
+  res.status(200).json(order);
+});
+
 // get orders by user id
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -106,5 +116,4 @@ router.get("/:id", async (req, res, next) => {
     .populate("orderProducts");
   res.status(200).json(order);
 });
-
 module.exports = router;

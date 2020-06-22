@@ -1,9 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Product = require("../models/product");
-const {
-  productAuthorization
-} = require("../middleware/authorization");
+const { productAuthorization } = require("../middleware/authorization");
 const authenticationmiddleWare = require("../middleware/authentecation");
 require("express-async-errors");
 const _ = require("lodash");
@@ -17,13 +15,12 @@ router.get("/", async (req, res, next) => {
   res.send(products);
 });
 
-
 router.get("/deals/:id", async (req, res, next) => {
-  const id = req.params.id
+  const id = req.params.id;
   const products = await Product.find({
-      userId: id,
-      "onSale": true
-    })
+    userId: id,
+    onSale: true,
+  })
     .populate("categoryId")
     .populate("userId");
   res.send(products);
@@ -40,40 +37,41 @@ router.post("/imageUpload", (req, res, next) => {
 
 //get All Products By userId
 router.get("/products/:id", async (req, res, next) => {
-  let {
-    search,
-    categoryId,
-    sortBy
-  } = req.query
+  let { search, categoryId, sortBy } = req.query;
   let products;
-  let category = categoryId ? {
-    categoryId
-  } : {}
-  let searchValue = search ? {
-    name: {
-      $regex: new RegExp(".*" + search.toLowerCase() + ".*")
-    }
-  } : {}
+  let category = categoryId
+    ? {
+        categoryId,
+      }
+    : {};
+  let searchValue = search
+    ? {
+        name: {
+          $regex: new RegExp(".*" + search + ".*"),
+        },
+      }
+    : {};
 
-  const id = req.params.id
+  const id = req.params.id;
   products = await Product.find({
-      ...searchValue,
-      ...category,
-      userId: id
-    }).populate("categoryId")
+    ...searchValue,
+    ...category,
+    userId: id,
+  })
+    .populate("categoryId")
     .populate("userId");
 
   //////////sorting//////
 
   switch (sortBy) {
-    case '0':
-      products = _.orderBy(products, 'name', 'asc')
+    case "0":
+      products = _.orderBy(products, "name", "asc");
       break;
-    case '1':
-      products = _.orderBy(products, `price`, `desc`)
+    case "1":
+      products = _.orderBy(products, `price`, `desc`);
       break;
-    case '2':
-      products = _.orderBy(products, `price`, `asc`)
+    case "2":
+      products = _.orderBy(products, `price`, `asc`);
       break;
     default:
       break;
@@ -85,8 +83,6 @@ router.get("/products/:id", async (req, res, next) => {
   //     else products = _.orderBy(products,`${strSort[0]}`,`${strSort[1]}`)
   // }
   res.json(products);
-
-
 });
 
 router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
@@ -110,7 +106,7 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
     userId,
     categoryId,
     amount,
-    onSale
+    onSale,
   });
   await product.save();
   res.json(product);
@@ -121,10 +117,8 @@ router.patch(
   authenticationmiddleWare,
   productAuthorization,
   async (req, res, next) => {
-    const {
-      id
-    } = req.params;
-    const userId = req.user.id
+    const { id } = req.params;
+    const userId = req.user.id;
     const {
       name,
       imageSrc,
@@ -137,7 +131,8 @@ router.patch(
       amount,
     } = req.body;
     const product = await Product.findByIdAndUpdate(
-      id, {
+      id,
+      {
         name,
         imageSrc,
         price,
@@ -146,8 +141,9 @@ router.patch(
         userId,
         categoryId,
         amount,
-        onSale
-      }, {
+        onSale,
+      },
+      {
         new: true,
         runValidators: true,
         omitUndefined: true,
@@ -169,18 +165,14 @@ router.delete(
   authenticationmiddleWare,
   productAuthorization,
   async (req, res, next) => {
-    const {
-      id
-    } = req.params;
+    const { id } = req.params;
     const product = await Product.findByIdAndDelete(id);
     res.status(200).json(product);
   }
 );
 
 router.get("/:id", async (req, res, next) => {
-  const {
-    id
-  } = req.params;
+  const { id } = req.params;
   const product = await Product.findById(id)
     .populate("categoryId")
     .populate("userId");
