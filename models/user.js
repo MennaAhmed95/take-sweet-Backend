@@ -82,7 +82,10 @@ const verify = util.promisify(jwt.verify);
 
 // jwt.verify()
 
+
 userSchema.methods.generateToken = function (expiresIn = "24hr") {
+
+
   const userInstance = this;
   return sign(
     {

@@ -18,8 +18,10 @@ router.get("/", async (req, res, next) => {
 });
 
 
-router.get("/deals", async (req, res, next) => {
+router.get("/deals/:id", async (req, res, next) => {
+  const id = req.params.id
   const products = await Product.find({
+      userId: id,
       "onSale": true
     })
     .populate("categoryId")
