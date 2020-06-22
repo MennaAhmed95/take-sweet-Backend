@@ -115,7 +115,7 @@ router.post("/addProduct", authenticationmiddleWare, async (req, res, next) => {
 router.patch(
   "/:id",
   authenticationmiddleWare,
-  productAuthorization,
+  // productAuthorization,
   async (req, res, next) => {
     const { id } = req.params;
     const userId = req.user.id;
