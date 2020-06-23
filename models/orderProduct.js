@@ -19,7 +19,7 @@ const orderProductSchema = new mongoose.Schema(
     price: {
       type: Number,
       required: true,
-      min: 10,
+
     },
     categoryId: {
       type: mongoose.ObjectId,

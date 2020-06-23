@@ -66,7 +66,7 @@ router.patch("/:id", async (req, res, next) => {
 });
 
 //delete company by id
-router.delete("/:id", authenticationmiddleWare, async (req, res, next) => {
+router.delete("/:id",  async (req, res, next) => {
   const id = req.params.id;
   const company = await Company.findByIdAndDelete(id);
   res.status(200).json(company);

@@ -37,7 +37,7 @@ router.patch("/:id", authenticationmiddleWare, async (req, res, next) => {
   res.status(200).json(cafe);
 });
 
-router.delete("/:id", authenticationmiddleWare, async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   const id = req.params.id;
   const cafe = await Cafe.findByIdAndDelete(id);
   res.status(200).json(cafe);
