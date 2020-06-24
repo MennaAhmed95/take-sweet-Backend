@@ -76,12 +76,6 @@ router.get("/products/:id", async (req, res, next) => {
     default:
       break;
   }
-
-  // const strSort = sortBy? sortBy.split(":") : "";
-  // if(sortBy){
-  //     if(strSort[0]==='name') products= _.orderBy(products,`${strSort[0]}`,'asc')
-  //     else products = _.orderBy(products,`${strSort[0]}`,`${strSort[1]}`)
-  // }
   res.json(products);
 });
 

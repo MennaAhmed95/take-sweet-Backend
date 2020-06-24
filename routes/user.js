@@ -5,7 +5,6 @@ const validationMiddleWare = require('../middleware/validation')
 const authenticationmiddleWare = require('../middleware/authentecation');
 require('express-async-errors');
 const CustomError = require('../helpers/customError');
-const signupValidator = require('../middleware/joiValidator')
 
 const {
     check,
