@@ -80,8 +80,6 @@ userSchema.methods.comparePassword = function (plainPassword) {
 const sign = util.promisify(jwt.sign);
 const verify = util.promisify(jwt.verify);
 
-// jwt.verify()
-
 userSchema.methods.generateToken = function (expiresIn = "8000m") {
   const userInstance = this;
   return sign(

@@ -88,7 +88,6 @@ router.patch(
 router.delete(
   "/:id",
   authenticationmiddleWare,
-  // orderAuthorization,
   async (req, res, next) => {
     const { id } = req.params;
     const order = await Order.findByIdAndDelete(id);
